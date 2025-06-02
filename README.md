@@ -41,7 +41,7 @@ The dataset includes Instagram influencers' profiles, engagement metrics, audien
     cd Social-Media-Analysis
     ```
 
-2. **(Optional) Create and activate a virtual environment:**
+2. **Create and activate a virtual environment:**
     ```bash
     python3 -m venv venv
     source venv/bin/activate
@@ -70,7 +70,8 @@ The app provides visual insights on:
 - Correlations between followers, engagement, and authenticity.
 - Machine learning model predictions with confidence scores.
 
-![Sample Dashboard](./Screenshot%202025-06-02%20113522.png)
+
+![Screenshot 2025-06-01 163133](https://github.com/user-attachments/assets/9371bfd7-686b-4c86-97fa-87c928be18f7)
 
 ## Contributing
 
