@@ -9,6 +9,15 @@ Analyze Instagram influencer data and predict engagement using interactive dashb
 
 This project provides tools and dashboards to explore Instagram influencer data, visualize key trends, and predict engagement levels using a trained machine learning model. The app is built on Streamlit and uses Jupyter Notebooks for data analysis and model training.
 
+
+## Table of Contents
+
+-  [Project Overview](http://localhost:8502/)
+- [Features](#features)
+- [Dataset](#dataset)
+- [Installation](#installation)
+- [Results](http://localhost:8502/)
+- [License](#license)
 ## Features
 
 - **Interactive Dashboard:** Filter influencers by category, country, and follower range.
@@ -30,7 +39,6 @@ This project provides tools and dashboards to explore Instagram influencer data,
 - `Screenshot 2025-06-02 113522.png` – Sample dashboard screenshot.
 
 ## Dataset
-
 The dataset includes Instagram influencers' profiles, engagement metrics, audience countries, and categories. It is available in the `notebooks/` directory.
 
 ## Installation
