@@ -81,9 +81,6 @@ The app provides visual insights on:
 
 ![Screenshot 2025-06-01 163133](https://github.com/user-attachments/assets/9371bfd7-686b-4c86-97fa-87c928be18f7)
 
-## Contributing
-
-Contributions are welcome! Please fork the repo and submit a pull request.
 
 ## License
 
