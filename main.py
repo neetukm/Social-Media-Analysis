@@ -23,10 +23,9 @@ pipeline = load_pipeline()
 # Sidebar
 with st.sidebar:
     st.title("📌 Dashboard")
-    st.markdown("Navigate to explore data or predict engagement.")
     st.info("Built with ❤️ using Streamlit")
 
-tab1, tab2 = st.tabs(["📊 Data Insights", "🤖 Predict Engagement"])
+tab1, tab2 = st.tabs(["📊 Influencer  Insights", "🤖 Predict Engagement"])
 
 # -------------------------
 # TAB 1: Data Insights
@@ -60,7 +59,7 @@ with tab1:
         st.dataframe(filtered_df.head(20), use_container_width=True)
 
     csv = filtered_df.to_csv(index=False).encode()
-    st.download_button("📥 Download Filtered Data", csv, "filtered_influencers.csv", "text/csv")
+    # st.download_button("📅 Download Filtered Data", csv, "filtered_influencers.csv", "text/csv")
 
     st.subheader("🏷️ Top Categories")
     top_cat = filtered_df['Category'].value_counts().head(10).reset_index()
@@ -77,8 +76,9 @@ with tab1:
     st.plotly_chart(fig2, use_container_width=True)
 
     st.subheader("📍 Followers vs Engagement Average")
+    top10_df = filtered_df.sort_values(by='Followers', ascending=False).head(10)
     fig3 = px.scatter(
-        filtered_df,
+        top10_df,
         x='Followers',
         y='Engagement average',
         size='Authentic engagement',
@@ -103,39 +103,42 @@ with tab1:
 # TAB 2: Engagement Prediction
 # -------------------------
 with tab2:
-    st.header("🎯 Predict Engagement Level")
-    st.markdown("Fill in the influencer details to predict engagement level:")
+    st.header("🌟 Predict Engagement Level")
+    st.markdown("Select an influencer to auto-fill details and predict engagement level:")
+
+    influencer_names = sorted(df['Influencer insta name'].dropna().unique())
+    selected_name = st.selectbox("Influencer Name", influencer_names)
+
+    # Autofill based on dataset
+    selected_row = df[df['Influencer insta name'] == selected_name].iloc[0]
 
     with st.form("predict_form"):
-        col1, col2 = st.columns(2)
-        with col1:
-            influencer_name = st.selectbox("Influencer insta name (info only)", sorted(df['Influencer insta name'].dropna().unique()))
-            followers = st.number_input("Total Followers", min_value=0.0, value=100000.0, step=10000.0)
-            authentic_engagement = st.number_input("Authentic Engagement", min_value=0.0, value=5000.0, step=500.0)
-        with col2:
-            engagement_avg = st.number_input("Engagement Average", min_value=0.0, value=8000.0, step=500.0)
-            category = st.selectbox("Category", sorted(df['Category'].dropna().unique()))
-            country = st.selectbox("Top Audience Country", sorted(df['Top audience country'].dropna().unique()))
+        followers = st.number_input("Followers", min_value=0.0, value=float(selected_row['Followers']), step=10000.0)
+        authentic_engagement = st.number_input("Authentic Engagement", min_value=0.0, value=float(selected_row['Authentic engagement']), step=100.0)
+        engagement_avg = st.number_input("Engagement Average", min_value=0.0, value=float(selected_row['Engagement average']), step=100.0)
+        category = st.selectbox("Category", sorted(df['Category'].dropna().unique()), index=list(sorted(df['Category'].dropna().unique())).index(selected_row['Category']))
+        country = st.selectbox("Top Audience Country", sorted(df['Top audience country'].dropna().unique()), index=list(sorted(df['Top audience country'].dropna().unique())).index(selected_row['Top audience country']))
 
-        submitted = st.form_submit_button("Predict")
+        submitted = st.form_submit_button("🔮 Predict")
 
     if submitted:
         try:
+            # Model expects these exact columns from training
             input_dict = {
+                'Influencer insta name': selected_name,
                 'Followers': followers,
                 'Authentic engagement': authentic_engagement,
                 'Engagement average': engagement_avg,
                 'Category': category,
                 'Top audience country': country
             }
-
             input_df = pd.DataFrame([input_dict])
 
             pred = pipeline.predict(input_df)[0]
             prob = pipeline.predict_proba(input_df).max()
 
             st.success(f"📌 Predicted Engagement Level: **{pred}**")
-            st.info(f"Model Confidence: **{prob:.2%}**")
+            st.info(f"🔢 Confidence Score: **{prob:.2%}**")
 
         except Exception as e:
-            st.error(f"Prediction Failed: {e}")
+            st.error(f"❌ Prediction Failed: {e}")
