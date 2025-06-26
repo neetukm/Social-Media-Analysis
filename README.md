@@ -12,7 +12,7 @@ This project provides tools and dashboards to explore Instagram influencer data,
 
 ## Table of Contents
 
--  [Project Overview](http://localhost:8502/)
+-  [Project Overview Dashboard](https://social-media-analysis1.streamlit.app/)
 - [Features](#features)
 - [Dataset](#dataset)
 - [Installation](#installation)
